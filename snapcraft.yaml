@@ -1,5 +1,5 @@
 name: ccache
-summary: Speeding-up the snap build by the compiler cache(CCache)
+summary: Speeding-up the snap build by exploiting the compiler cache(CCache)
 description: >
   This remote part sets up CCache and symbolic links for `gcc` and `g++` to make it automatically uses it when building.  For non default compiler commands you still have to customize the build systems manually via `CC`, `CXX` and other means.
 
