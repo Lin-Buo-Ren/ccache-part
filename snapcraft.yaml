@@ -1,0 +1,40 @@
+name: ccache
+summary: Speeding-up the snap build by the compiler cache(CCache)
+description: >
+  This remote parts sets up CCache and symbolic links for `gcc` and `g++` to make it automatically uses it when building.  For non default compiler commands you still have to customize the build systems manually via `CC`, `CXX` and other means.
+version: current
+
+grade: stable
+confinement: strict
+
+parts:
+  ccache:
+    plugin: nil
+    build-packages:
+    - ccache
+
+    # Temporary workaround for Bug #1776807 “`nil` plugin shouldn't pull anything to the srctre...” : Bugs : Snapcraft
+    # https://bugs.launchpad.net/snapcraft/+bug/1776807
+    override-pull: 'true'
+
+    override-build: |
+      set -eu
+
+      install \
+        --directory \
+        --verbose \
+        "${SNAPCRAFT_PART_INSTALL}"/bin
+      ln \
+        --force \
+        --symbolic \
+        --verbose \
+        "$(which ccache)" \
+        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc
+      ln \
+        --force \
+        --symbolic \
+        --verbose \
+        "$(which ccache)" \
+        "${SNAPCRAFT_PART_INSTALL}"/bin/g++
+    prime:
+    - -*
