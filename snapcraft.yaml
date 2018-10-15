@@ -43,3 +43,35 @@ parts:
         "${SNAPCRAFT_PART_INSTALL}"/bin/g++
     prime:
     - -*
+  tests:
+    after:
+    - ccache
+
+    plugin: dump
+    source: snap/local/tests
+    build-packages:
+    - build-essential
+
+    override-build: |
+      set \
+        -o errexit \
+        -o xtrace
+
+      snapcraftctl build
+      ccache \
+        --show-stats
+      gcc \
+        -c \
+        hello.c
+      gcc \
+        -o hello \
+        hello.o
+      ccache \
+        --show-stats
+      set \
+        +o xtrace
+      printf -- \
+        'Verify if the statistics increases by one.\n'
+
+    stage:
+    - -*
