@@ -88,7 +88,7 @@ parts:
       set \
         +o xtrace
       printf -- \
-        'Verify if the statistics increases by one.\n'
+        'Verify if the statistic increases by one.\n'
 
     stage:
     - -*
