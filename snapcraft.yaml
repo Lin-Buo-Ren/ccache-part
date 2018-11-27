@@ -32,66 +32,32 @@ parts:
         --directory \
         --verbose \
         "${SNAPCRAFT_PART_INSTALL}"/bin
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/g++
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-6
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/g++-6
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-7
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/g++-7
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-8
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/g++-8
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-9
-      ln \
-        --force \
-        --symbolic \
-        --verbose \
-        "$(which ccache)" \
-        "${SNAPCRAFT_PART_INSTALL}"/bin/g++-9
+
+      for toolchain_command in \
+        "${SNAPCRAFT_PART_INSTALL}"/bin/gcc \
+        "${SNAPCRAFT_PART_INSTALL}"/bin/g++; do
+        ln \
+          --force \
+          --symbolic \
+          --verbose \
+          "$(which ccache)" \
+          "${toolchain_command}"
+      done
+
+      for gcc_release in $(seq 6 9); do
+        ln \
+          --force \
+          --symbolic \
+          --verbose \
+          "$(which ccache)" \
+          "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-"${gcc_release}"
+        ln \
+          --force \
+          --symbolic \
+          --verbose \
+          "$(which ccache)" \
+          "${SNAPCRAFT_PART_INSTALL}"/bin/g++-"${gcc_release}"
+      done
     prime:
     - -*
   tests:
