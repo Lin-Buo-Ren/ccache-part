@@ -79,6 +79,10 @@ parts:
         -o xtrace
 
       snapcraftctl build
+
+      echo "The ccache implementation we're using: " "$(which ccache)"
+      ccache --version
+
       ccache \
         --show-stats
       gcc \
