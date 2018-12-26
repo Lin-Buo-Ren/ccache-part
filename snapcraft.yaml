@@ -14,19 +14,23 @@ confinement: strict
 
 parts:
   ccache:
-    # Workaround for nil plugin parts in snapcraft 2.x considered as `source: .`
-    source: empty
+    source: https://github.com/ccache/ccache.git
+    #source-branch: 3.5-maint
 
-    plugin: nil
+    plugin: autotools
+    # https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
     build-packages:
-    - ccache
+    # For building documentation
+    - asciidoc
+    - xsltproc
 
-    # Temporary workaround for Bug #1776807 “`nil` plugin shouldn't pull anything to the srctre...” : Bugs : Snapcraft
-    # https://bugs.launchpad.net/snapcraft/+bug/1776807
-    override-pull: 'true'
-
+    - zlib1g-dev
     override-build: |
-      set -eu
+      set \
+        -o errexit \
+        -o nounset
+
+      snapcraftctl build
 
       install \
         --directory \
@@ -40,7 +44,7 @@ parts:
           --force \
           --symbolic \
           --verbose \
-          "$(which ccache)" \
+          ./ccache \
           "${toolchain_command}"
       done
 
@@ -49,13 +53,13 @@ parts:
           --force \
           --symbolic \
           --verbose \
-          "$(which ccache)" \
+          ./ccache \
           "${SNAPCRAFT_PART_INSTALL}"/bin/gcc-"${gcc_release}"
         ln \
           --force \
           --symbolic \
           --verbose \
-          "$(which ccache)" \
+          ./ccache \
           "${SNAPCRAFT_PART_INSTALL}"/bin/g++-"${gcc_release}"
       done
     prime:
