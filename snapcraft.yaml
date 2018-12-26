@@ -64,6 +64,7 @@ parts:
       done
     prime:
     - -*
+
   tests:
     after:
     - ccache
