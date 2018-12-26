@@ -16,6 +16,7 @@ parts:
   ccache:
     source: https://github.com/ccache/ccache.git
     #source-branch: 3.5-maint
+    source-depth: 1
 
     plugin: autotools
     # https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
