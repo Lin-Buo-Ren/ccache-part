@@ -25,6 +25,7 @@ parts:
     - asciidoc
     - xsltproc
 
+    - gperf
     - zlib1g-dev
     override-build: |
       set \
